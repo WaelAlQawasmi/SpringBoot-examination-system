@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.security.Principal;
+
 @Controller
 public class AuthenticationController {
 
@@ -18,11 +20,18 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user")
-    public  String admin(){
+    public  String admin(Model username, Principal currentLogedIn){
+        username.addAttribute("userName",currentLogedIn.getName());
 
         return "gi.html";
     }
 
+    @GetMapping("/all")
+    public  String all(Model username, Principal currentLogedIn){
+        username.addAttribute("userName",currentLogedIn.getName());
+
+        return "gi.html";
+    }
 
     @GetMapping("/admin")
     public  String user(Model role){
