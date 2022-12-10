@@ -2,18 +2,19 @@ package com.example.demo.Entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
+import javax.persistence.*;
+@Setter
+@Getter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Getter
-@Setter
+@Entity
+
 public class exams {
+
+    @Setter(value = AccessLevel.NONE)
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue
+
     private Long id;
     @NonNull
     String name;

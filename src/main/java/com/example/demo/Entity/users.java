@@ -6,11 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Setter
@@ -18,26 +17,28 @@ import java.util.Collection;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class users implements UserDetails {
+
+    @Setter(value = AccessLevel.NONE)
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue
+
+    Long id;
     @NonNull
     String name;
     @NonNull
     String email;
     @NonNull
     String password;
+
     @NonNull
-    String role;
-    @NonNull
-    Boolean isAccountNonExpired=false;
+    Boolean isAccountNonExpired;
 
 
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role));    }
+        return null;    }
 
     @Override
     public String getPassword() {
@@ -51,7 +52,7 @@ public class users implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
 
     @Override
