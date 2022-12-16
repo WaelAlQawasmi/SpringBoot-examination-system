@@ -21,4 +21,9 @@ public class publicController {
         return "signup";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
 }
