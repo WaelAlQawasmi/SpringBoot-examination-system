@@ -26,4 +26,9 @@ public class publicController {
         return "dashboard";
     }
 
+    @GetMapping("/exams")
+    public String exams() {
+        return "exams";
+    }
+
 }
