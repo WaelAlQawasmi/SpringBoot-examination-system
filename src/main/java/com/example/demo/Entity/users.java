@@ -30,7 +30,7 @@ public class users implements UserDetails {
     @NonNull
     String password;
 
-    @NonNull
+
     Boolean isAccountNonExpired;
 
 

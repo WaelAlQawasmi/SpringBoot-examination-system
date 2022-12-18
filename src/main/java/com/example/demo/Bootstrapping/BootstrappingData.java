@@ -25,7 +25,7 @@ public class BootstrappingData implements CommandLineRunner  {
         users deffult= userRepository.findByemail("wael@email.com");
         if (deffult==null) {
             String passwordEncoded = passwordEncoder.encode("123456");
-            users users = new users("wael", "wael@email.com", passwordEncoded, Boolean.FALSE);
+            users users = new users("wael", "wael@email.com", passwordEncoded);
             userRepository.save(users);
 
             userRepository.findAll().forEach((meme) -> {
