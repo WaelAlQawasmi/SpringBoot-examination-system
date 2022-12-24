@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -34,7 +35,8 @@ public class users implements UserDetails {
     Boolean isAccountNonExpired;
 
 
-
+    @OneToMany(mappedBy="user")
+    private List<exams> exams;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

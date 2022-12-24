@@ -34,7 +34,7 @@
                             <!-- BEGIN profile-header-info -->
                             <div class="profile-header-info">
                                 <h4 class="m-t-10 m-b-5" th:text="${userInfo}"></h4>
-                                <p class="m-b-10">UXUI + Frontend Developer</p>
+                                <p class="m-b-10"> Teacher</p>
 
 
                                 <form method="post" action="/logout">
@@ -62,9 +62,9 @@
                         <!-- BEGIN profile-header-tab -->
                         <ul class="profile-header-tab nav nav-tabs">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-                                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Exams</button>
+                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Create exam</button>
+                                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">users</button>
                             </div>
                             </ul>
 
@@ -74,8 +74,71 @@
                 </div>
                 <!-- end profile -->
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">exams</div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">create exam</div>
+<!--                    start exams-->
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">name</th>
+                                <th scope="col">is Enable</th>
+                                <th scope="col">actions </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr th:each="exam: ${exams}">
+                                <td th:text="${exam.name}" />
+                                <td th:text="${exam.inEnable}" />
+                                <td scope="col">actions </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+<!--                    end exam-->
+<!--                    start create exam-->
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                        <form method="post" action="/create/exam">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">name</label>
+                                    <input type="text" name="name" class="form-control" id="inputEmail4">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">subject</label>
+                                    <input type="text" name="subject" class="form-control" id="inputPassword4">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">category</label>
+                                    <input type="text" name="category" class="form-control" id="inputCity">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">date</label>
+                                    <input type="date" name="date" class="form-control" id="">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="inEnable" type="checkbox" id="gridCheck">
+                                    <label class="form-check-label" for="gridCheck">
+                                        is Enable
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+                    </div>
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">users</div>
                 </div>
 
