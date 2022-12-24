@@ -20,8 +20,7 @@ public class exams {
     String name;
     @NonNull
     String date;
-    @NonNull
-    String createBy;
+
     @NonNull
     boolean inEnable;
     @NonNull
@@ -30,6 +29,12 @@ public class exams {
     String category;
     @NonNull
     String subject;
+
+    @NonNull
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private users user;
+
 
 
 }
