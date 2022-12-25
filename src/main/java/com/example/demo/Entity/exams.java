@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 public class exams {
 
-    @Setter(value = AccessLevel.NONE)
+
     @Id
     @GeneratedValue
 
@@ -33,7 +33,7 @@ public class exams {
     @NonNull
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
-    private users user;
+    private com.example.demo.Entity.user user;
 
 
 
