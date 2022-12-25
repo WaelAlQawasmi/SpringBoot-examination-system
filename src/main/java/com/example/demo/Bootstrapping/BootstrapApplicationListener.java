@@ -1,18 +1,27 @@
 package com.example.demo.Bootstrapping;
 
+import com.example.demo.Entity.Privilege;
+import com.example.demo.Entity.Role;
+import com.example.demo.Entity.user;
+import com.example.demo.Repositories.PrivilegeRepository;
+import com.example.demo.Repositories.RoleRepository;
 import com.example.demo.Repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Configuration
 public class BootstrapApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 
 
-    //Repository
-    private final  userRepository userRepository;
+
 
 
 
@@ -20,15 +29,74 @@ public class BootstrapApplicationListener implements ApplicationListener<Context
         this.userRepository = memeRepository;
         this.passwordEncoder = passwordEncoder;
     }
-@Autowired
+    boolean alreadySetup = false;
+
+
+
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PrivilegeRepository privilegeRepository;
+
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private   userRepository userRepository;
+
+
 
 
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-//        String passwordEncoded = passwordEncoder.encode("123456");
-//        users users = new users("wael","wael@email.com",passwordEncoded,"admin",Boolean.FALSE);
-//        userRepository.save(users);
+
+        if (alreadySetup)
+            return;
+        Privilege readPrivilege
+                = createPrivilegeIfNotFound("READ_PRIVILEGE");
+        Privilege writePrivilege
+                = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+
+        List<Privilege> adminPrivileges = Arrays.asList(
+                readPrivilege, writePrivilege);
+
+        createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+        createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        user user = new user("wael","wael@email.com",passwordEncoder.encode("123456"));
+        user.setRoles(Arrays.asList(adminRole));
+        user.isAccountNonExpired(true);
+        userRepository.save(user);
+
+        alreadySetup = true;
+    }
+
+    @Transactional
+    Privilege createPrivilegeIfNotFound(String name) {
+
+        Privilege privilege = privilegeRepository.findByName(name);
+        if (privilege == null) {
+            privilege = new Privilege(name);
+            privilegeRepository.save(privilege);
+        }
+        return privilege;
+    }
+
+    @Transactional
+    Role createRoleIfNotFound(
+            String name, Collection<Privilege> privileges) {
+
+        Role role = roleRepository.findByName(name);
+        if (role == null) {
+            role = new Role(name);
+            role.setPrivileges(privileges);
+            roleRepository.save(role);
+        }
+        return role;
     }
 }

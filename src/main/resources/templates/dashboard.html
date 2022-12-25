@@ -44,21 +44,6 @@
                             <!-- END profile-header-info -->
                         </div>
 
-                        <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                 aria-labelledby="v-pills-home-tab">8652754
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                 aria-labelledby="v-pills-profile-tab">hbjm
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab">jm ,
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
-                                 aria-labelledby="v-pills-settings-tab">jm,
-                            </div>
-                        </div>
-                        <!-- END profile-header-content -->
                         <!-- BEGIN profile-header-tab -->
                         <ul class="profile-header-tab nav nav-tabs">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -89,10 +74,12 @@
                             </thead>
                             <tbody>
 
-                            <tr th:each="exam: ${exams}">
-                                <td th:text="${exam.name}" />
-                                <td th:text="${exam.inEnable}" />
-                                <td scope="col">actions </td>
+                            <tr th:each="exam,iter: ${exams}">
+                                <td th:text="${iter.index+1}" /> </td>
+
+                                <td th:text="${exam.name}" /></td>
+                                <td th:text="${exam.inEnable}" /></td>
+                                <td scope="col"><a th:href="@{/update/exam/{id}(id = ${exam.id})}"> edit</a> </td>
 
                             </tr>
 
@@ -103,7 +90,7 @@
 <!--                    start create exam-->
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-                        <form method="post" action="/create/exam">
+                        <form method="post" action="/create/exam" th:object="${users}" >
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmail4">name</label>

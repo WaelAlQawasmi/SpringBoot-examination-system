@@ -1,23 +1,19 @@
 package com.example.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class users implements UserDetails {
+public class user implements UserDetails {
 
     @Setter(value = AccessLevel.NONE)
     @Id
@@ -70,5 +66,19 @@ public class users implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    public void isAccountNonExpired(boolean b) {
+        this.isAccountNonExpired=b;
     }
 }
