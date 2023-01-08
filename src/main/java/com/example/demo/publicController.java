@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.Entity.Questions;
 import com.example.demo.Entity.exams;
 import com.example.demo.Entity.user;
+import com.example.demo.Repositories.QuestionsRepository;
 import com.example.demo.Repositories.examsRepository;
 import com.example.demo.Repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import java.util.Map;
 public class publicController {
     @Autowired
     userRepository userRepository;
+    @Autowired
+    QuestionsRepository questionsRepository;
     @Autowired
     examsRepository  examsRepository;
     @Autowired
@@ -78,8 +82,13 @@ public class publicController {
     public String exams(@PathVariable("id") Long examId,Model model) {
        exams exams= examsRepository.findById(examId)       .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + examId));
        model.addAttribute("exam",exams);
-
-
+        return "editExam";
+    }
+    @GetMapping("/questions/{examId}")
+    public String Questions(@PathVariable("examId") Long examId,Model model) {
+        exams exams= examsRepository.findById(examId)       .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + examId));
+        List<Questions>questions=exams.getQuestions();
+        model.addAttribute("questions",questions);
         return "editExam";
     }
 
@@ -91,9 +100,6 @@ public class publicController {
         user user=userRepository.findByemail(curentUser.getName());
         exam.setUser(user);
         examsRepository.save(exam) ;
-
-
-
         return new RedirectView("/dashboard");
     }
 
