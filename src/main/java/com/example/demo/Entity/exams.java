@@ -3,6 +3,8 @@ package com.example.demo.Entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -34,6 +36,11 @@ public class exams {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private com.example.demo.Entity.user user;
+
+    @OneToMany(mappedBy="exam")
+    private List<Questions> Questions;
+
+
 
 
 
